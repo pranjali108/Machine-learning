@@ -1,0 +1,42 @@
+import numpy as np
+a=np.array([1,2,3,4,5,6,7,8,9])
+t=np.arange(9)
+print(t)
+b=np.reshape(a,(3,3))
+print(b)
+import pandas as pd
+data1={'Name': ["Vedanti","Minal","Pooja","Bob","Alice","Jacob","Divya"],
+      'Age':[21,20,22,20,21,18,19],
+      'Gender':["Female","Female","Female","Male","Male","Male","Female"],
+      'Marks':[90,95,70,80,90,75,60]}
+b = pd.DataFrame(data1)
+print(b)
+data2={'Address':["Nagpur","Pune","Mumbai","Banglore","Hyedrabad","Delhi","Chennai"],
+       'Caste':["OBC","OBC","OPEN","NT","OBC","OBC","OBC"],
+       'BloodGroup':["O+","A+","AB-","B+","O+","AB+","O+"]}
+a=pd.DataFrame(data2)
+print(a)
+s=b.merge(a,left_index=True,right_index=True)
+print(s)
+v=pd.concat([b,a])
+print(v)
+s
+s[s['Age']==20]
+abc={'a1':[20,10,30,40,50],
+     'a2':[25,45,88,54,np.NAN],
+     'a3':[15,45,84,np.NAN,42],
+     'a4':[45,np.NAN,45,10,1]}
+ABC=pd.DataFrame(abc)
+print(ABC)
+meanvalue=ABC['a3'].mean()
+print(meanvalue)
+ABC['a3'].fillna(value=meanvalue,inplace=True)
+print(ABC)
+meanvalue=ABC['a2'].mean()
+print(meanvalue)
+ABC['a2'].fillna(value=meanvalue,inplace=True)
+print(ABC)
+meanvalue=ABC['a4'].mean()
+print(meanvalue)
+ABC['a4'].fillna(value=meanvalue,inplace=True)
+print(ABC)
