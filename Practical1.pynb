@@ -1,0 +1,85 @@
+import scipy
+import numpy
+import math
+a=[1,2,3,4.3]
+type(a)
+import statistics
+import numpy as np
+b=np.mean(a)
+print(b)
+c=statistics.median(a)
+print(c)
+d=statistics.mode(a)
+print(d)
+import scipy
+from scipy import linalg
+import numpy as np
+x=np.array([[2,2],[4,2]])
+print(x)
+from scipy import linalg
+a=np.array([1,2,3,6])
+print(a)import pandas as pd
+t=pd.Series([1,2,3,4,5,6])
+print(t)
+print(t.index)
+print(t.values)
+fruits=['Apple','Mango','Kiwi','Oranges']
+quant=[10,15,12,13]
+D=pd.Series(quant, index=fruits)
+D
+import numpy as np
+import matplotlib.pyplot as plt
+
+l=np.array([1,2,3,4])
+m=np.array([10,12,14,16])
+plt.plot(l,m, "s")
+plt.title('My First Plot')
+plt.xlabel("Quantity")
+plt.ylabel("Numbers")
+plt.show()
+import matplotlib.pyplot as plt
+F=plt.plot([1,2,3,4],[10,12,14,16])
+a=([1,2,5,7,12,4,5,6,8])
+import statistics
+m=statistics.mean(a)
+n=statistics.median(a)
+o=statistics.mode(a)
+p=statistics.stdev(a)
+q=statistics.variance(a)
+print("Mean is", m)
+print("Median is", n)
+print("Mode is", o)
+print("Standard Deviation is", p)
+print("Variance is", q)
+import math
+print(math.floor(-11.9))
+print(math.ceil(2.4))
+print(math.ceil(25.1))
+print(math.ceil(-5.3))
+print(math.sqrt(10))
+print(math.sqrt(65))
+print(math.sqrt(20))
+print(math.sqrt(64))
+print(math.isqrt(64))
+print(math.isqrt(36))
+print(math.isqrt(20))
+print(math.gcd(64,36))
+print(math.gcd(10,36))
+print(math.factorial(6))
+import numpy
+s=numpy.array([[1,2,3],[4,5,8],[1,7,9]])
+print(s)
+print(s.ndim)
+print(s.shape)
+print(s.size)
+import numpy as np
+c=np.array([1,2,3,4,5])
+print(c.shape)
+mn=c.mean()
+cn=c.sum()
+print(mn)
+print(cn)
+sx=np.sin(c)
+print(sx)
+cv=np.array(["Guava","Banana","Cherry","Apple"])
+print(np.sort(cv))
