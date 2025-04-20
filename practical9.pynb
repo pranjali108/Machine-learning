@@ -1,0 +1,97 @@
+
+import pandas as pd
+from pgmpy.models import BayesianNetwork
+from pgmpy.factors.discrete import DiscreteFactor
+from pgmpy.inference import VariableElimination
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+
+# Step 1: Load dataset
+def load_data():
+    url = "https://raw.githubusercontent.com/ansh941/Machine-Learning-Practice/master/heart.csv"
+    df = pd.read_csv(url)
+    return df
+
+# Step 2: Preprocess dataset (encoding categorical variables)
+def preprocess_data(df):
+    # Encoding categorical features as numeric values
+    label_encoders = {}
+    categorical_columns = ['sex', 'cp', 'fbs', 'restecg', 'exang', 'slope', 'ca', 'thal']
+    for col in categorical_columns:
+        le = LabelEncoder()
+        df[col] = le.fit_transform(df[col])
+        label_encoders[col] = le
+    return df, label_encoders
+
+# Step 3: Define the Bayesian Network structure
+def define_bayesian_network():
+    model = BayesianNetwork([
+        ('age', 'target'),
+        ('sex', 'target'),
+        ('cp', 'target'),
+        ('trestbps', 'target'),
+        ('chol', 'target'),
+        ('fbs', 'target'),
+        ('restecg', 'target'),
+        ('thalach', 'target'),
+        ('exang', 'target'),
+        ('oldpeak', 'target'),
+        ('slope', 'target'),
+        ('ca', 'target'),
+        ('thal', 'target'),
+    ])
+    return model
+
+# Step 4: Train the model and perform inference
+def train_and_infer(df, model):
+    # Create a Conditional Probability Table (CPT) for each feature
+    for col in df.columns:
+        cpt = DiscreteFactor(
+            variables=[col],
+            cardinality=[len(df[col].unique())],
+            values=df[col].value_counts().values.tolist()
+        )
+        model.add_factors(cpt)
+
+    # Perform inference using Variable Elimination
+    inference = VariableElimination(model)
+    return inference
+
+# Step 5: Predict heart disease likelihood
+def predict_disease(inference, input_data):
+    # Input is a dictionary where keys are column names and values are the patient values
+    query = inference.query(variables=['target'], evidence=input_data)
+    return query
+
+# Main function
+if __name__ == "__main__":
+    # Step 1: Load and preprocess data
+    df = load_data()
+    df, label_encoders = preprocess_data(df)
+
+    # Step 2: Define Bayesian Network
+    model = define_bayesian_network()
+
+    # Step 3: Train the model and perform inference
+    inference = train_and_infer(df, model)
+
+    # Step 4: Prepare input for prediction (example: patient input)
+    input_data = {
+        'age': 57,  # Age
+        'sex': 1,   # Male
+        'cp': 0,    # Chest pain type
+        'trestbps': 130,  # Resting blood pressure
+        'chol': 236,  # Cholesterol
+        'fbs': 0,    # Fasting blood sugar > 120 mg/dl
+        'restecg': 2,  # Resting electrocardiographic results
+        'thalach': 174,  # Maximum heart rate achieved
+        'exang': 0,  # Exercise induced angina
+        'oldpeak': 0.0,  # Depression induced by exercise relative to rest
+        'slope': 1,  # Slope of the peak exercise ST segment
+        'ca': 1,     # Number of major vessels colored by fluoroscopy
+        'thal': 2    # Thalassemia
+    }
+
+    # Step 5: Make prediction
+    prediction = predict_disease(inference, input_data)
+    print(f"Prediction for heart disease: {'Likely' if prediction.values[1] > 0.5 else 'Unlikely'}")
